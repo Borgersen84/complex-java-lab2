@@ -1,7 +1,8 @@
 package se.alten.schoolproject.dao;
 
+import se.alten.schoolproject.exception.EmptyFieldException;
+import se.alten.schoolproject.exception.StudentNotFoundException;
 import se.alten.schoolproject.model.StudentModel;
-import se.alten.schoolproject.model.SubjectModel;
 
 import javax.ejb.Local;
 import java.util.List;
@@ -9,17 +10,15 @@ import java.util.List;
 @Local
 public interface SchoolAccessLocal {
 
-    List listAllStudents();
+    List listAllStudents() throws StudentNotFoundException;
 
-    StudentModel addStudent(String studentModel);
+    StudentModel findStudentByName(String forename, String lastName) throws StudentNotFoundException, EmptyFieldException;
 
-    void removeStudent(String student);
+    StudentModel addStudent(String studentModel) throws Exception;
 
-    void updateStudent(String forename, String lastname, String email);
+    StudentModel removeStudent(String student) throws StudentNotFoundException, EmptyFieldException;
 
-    void updateStudentPartial(String studentModel);
+    StudentModel updateStudent(String forename, String lastname, String email) throws StudentNotFoundException, EmptyFieldException;
 
-    List listAllSubjects();
-
-    SubjectModel addSubject(String subjectModel);
+    StudentModel updateStudentPartial(String studentModel) throws StudentNotFoundException, EmptyFieldException;
 }
