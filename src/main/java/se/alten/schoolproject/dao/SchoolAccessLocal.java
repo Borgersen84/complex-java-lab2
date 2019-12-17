@@ -3,6 +3,7 @@ package se.alten.schoolproject.dao;
 import se.alten.schoolproject.exception.EmptyFieldException;
 import se.alten.schoolproject.exception.StudentNotFoundException;
 import se.alten.schoolproject.model.StudentModel;
+import se.alten.schoolproject.model.SubjectModel;
 
 import javax.ejb.Local;
 import java.util.List;
@@ -21,4 +22,8 @@ public interface SchoolAccessLocal {
     StudentModel updateStudent(String forename, String lastname, String email) throws StudentNotFoundException, EmptyFieldException;
 
     StudentModel updateStudentPartial(String studentModel) throws StudentNotFoundException, EmptyFieldException;
+
+    List listAllSubjects();
+
+    SubjectModel addSubject(String subjectModel);
 }
