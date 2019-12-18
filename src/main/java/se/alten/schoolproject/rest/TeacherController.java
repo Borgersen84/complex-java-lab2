@@ -1,6 +1,7 @@
 package se.alten.schoolproject.rest;
 
 import lombok.NoArgsConstructor;
+import se.alten.schoolproject.dao.SchoolAccessLocal;
 import se.alten.schoolproject.dao.SchoolDataAccess;
 import se.alten.schoolproject.model.TeacherModel;
 
@@ -17,7 +18,7 @@ import java.util.List;
 public class TeacherController {
 
     @Inject
-    private SchoolDataAccess sal;
+    private SchoolAccessLocal sal;
 
     @GET
     @Produces({"application/JSON"})

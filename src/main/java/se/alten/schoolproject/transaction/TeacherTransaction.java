@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.ws.rs.NotFoundException;
 import java.util.List;
 
@@ -18,7 +19,8 @@ public class TeacherTransaction implements TeacherTransactionAccess  {
 
     @Override
     public List listAllTeachers() {
-        return null;
+        Query query = entityManager.createQuery("SELECT t FROM Teacher t");
+        return query.getResultList();
     }
 
     @Override

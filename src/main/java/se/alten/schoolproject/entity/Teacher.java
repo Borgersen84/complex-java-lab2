@@ -2,11 +2,17 @@ package se.alten.schoolproject.entity;
 
 import lombok.*;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,7 +32,27 @@ public class Teacher implements Serializable {
     @Column
     private String lastname;
 
-    private Set<Student> students = new HashSet<>();
+    @Column(unique = true)
+    private String email;
 
-    private Set<Subject> subjects = new HashSet<>();
+    public Teacher toEntity(String teacherModel) {
+        List<String> temp = new ArrayList<>();
+
+        JsonReader reader = Json.createReader(new StringReader(teacherModel));
+        JsonObject jsonObject = reader.readObject();
+
+        Teacher teacher = new Teacher();
+        if (jsonObject.containsKey("forename")) {
+            teacher.setForename(jsonObject.getString("forename"));
+        } else teacher.setForename("");
+        if (jsonObject.containsKey("lastname")) {
+            teacher.setForename(jsonObject.getString("lastname"));
+        } else teacher.setLastname("");
+        if (jsonObject.containsKey("email")) {
+            teacher.setEmail(jsonObject.getString("email"));
+        } else teacher.setEmail("");
+
+        return teacher;
+    }
+
 }

@@ -9,6 +9,7 @@ import se.alten.schoolproject.model.SubjectModel;
 import se.alten.schoolproject.model.TeacherModel;
 import se.alten.schoolproject.transaction.StudentTransactionAccess;
 import se.alten.schoolproject.transaction.SubjectTransactionAccess;
+import se.alten.schoolproject.transaction.TeacherTransactionAccess;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -28,6 +29,9 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
 
     @Inject
     SubjectTransactionAccess subjectTransactionAccess;
+
+    @Inject
+    TeacherTransactionAccess teacherTransactionAccess;
 
     @Override
     public List listAllStudents() throws StudentNotFoundException {
@@ -99,12 +103,12 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
 
     @Override
     public List listAllTeachers() {
-        return null;
+        return teacherTransactionAccess.listAllTeachers();
     }
 
     @Override
     public TeacherModel addTeacher(String teacherModel) {
-        return null;
+        return teacherTransactionAccess.addTeacher(teacherModel);
     }
 
 
