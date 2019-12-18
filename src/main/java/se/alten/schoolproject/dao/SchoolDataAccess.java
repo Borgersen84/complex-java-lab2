@@ -2,6 +2,7 @@ package se.alten.schoolproject.dao;
 
 import se.alten.schoolproject.entity.Student;
 import se.alten.schoolproject.entity.Subject;
+import se.alten.schoolproject.entity.Teacher;
 import se.alten.schoolproject.exception.EmptyFieldException;
 import se.alten.schoolproject.exception.StudentNotFoundException;
 import se.alten.schoolproject.model.StudentModel;
@@ -23,6 +24,8 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
     private StudentModel studentModel = new StudentModel();
     private Subject subject = new Subject();
     private SubjectModel subjectModel = new SubjectModel();
+    private TeacherModel teacherModel = new TeacherModel();
+    private Teacher teacher = new Teacher();
 
     @Inject
     StudentTransactionAccess studentTransactionAccess;
@@ -107,8 +110,10 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
     }
 
     @Override
-    public TeacherModel addTeacher(String teacherModel) {
-        return teacherTransactionAccess.addTeacher(teacherModel);
+    public TeacherModel addTeacher(String newTeacher) throws Exception {
+        Teacher teacherToAdd = teacher.toEntity(newTeacher);
+        teacherTransactionAccess.addTeacher(teacherToAdd);
+        return teacherModel.toModel(teacherToAdd);
     }
 
 

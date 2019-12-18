@@ -30,5 +30,5 @@ public interface SchoolAccessLocal {
 
     List listAllTeachers();
 
-    TeacherModel addTeacher(String teacherModel);
+    TeacherModel addTeacher(String teacherModel) throws Exception;
 }
