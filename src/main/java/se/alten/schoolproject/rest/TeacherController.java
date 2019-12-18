@@ -2,12 +2,12 @@ package se.alten.schoolproject.rest;
 
 import lombok.NoArgsConstructor;
 import se.alten.schoolproject.dao.SchoolDataAccess;
+import se.alten.schoolproject.model.TeacherModel;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
@@ -27,6 +27,19 @@ public class TeacherController {
             return Response.ok(teachers).build();
         } catch (Exception e) {
             return Response.status(Response.Status.NOT_FOUND).build();
+        }
+    }
+
+    @POST
+    @Path("/add")
+    @Produces({"application/JSON"})
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addTeacher(String teacherModel) {
+        try {
+            TeacherModel teacher = sal.addTeacher(teacherModel);
+            return Response.ok(teacher).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.CONFLICT).build();
         }
     }
 }
