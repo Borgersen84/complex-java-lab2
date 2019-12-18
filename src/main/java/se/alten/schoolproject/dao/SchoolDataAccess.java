@@ -6,6 +6,7 @@ import se.alten.schoolproject.exception.EmptyFieldException;
 import se.alten.schoolproject.exception.StudentNotFoundException;
 import se.alten.schoolproject.model.StudentModel;
 import se.alten.schoolproject.model.SubjectModel;
+import se.alten.schoolproject.model.TeacherModel;
 import se.alten.schoolproject.transaction.StudentTransactionAccess;
 import se.alten.schoolproject.transaction.SubjectTransactionAccess;
 
@@ -95,4 +96,16 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
         subjectTransactionAccess.addSubject(subjectToAdd);
         return subjectModel.toModel(subjectToAdd);
     }
+
+    @Override
+    public List listAllTeachers() {
+        return null;
+    }
+
+    @Override
+    public TeacherModel addTeacher(String teacherModel) {
+        return null;
+    }
+
+
 }

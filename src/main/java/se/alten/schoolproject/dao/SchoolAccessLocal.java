@@ -4,6 +4,7 @@ import se.alten.schoolproject.exception.EmptyFieldException;
 import se.alten.schoolproject.exception.StudentNotFoundException;
 import se.alten.schoolproject.model.StudentModel;
 import se.alten.schoolproject.model.SubjectModel;
+import se.alten.schoolproject.model.TeacherModel;
 
 import javax.ejb.Local;
 import java.util.List;
@@ -26,4 +27,8 @@ public interface SchoolAccessLocal {
     List listAllSubjects();
 
     SubjectModel addSubject(String subjectModel);
+
+    List listAllTeachers();
+
+    TeacherModel addTeacher(String teacherModel);
 }
