@@ -5,9 +5,7 @@ import lombok.*;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -24,6 +22,7 @@ import java.util.Set;
 public class Teacher implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
@@ -44,13 +43,19 @@ public class Teacher implements Serializable {
         Teacher teacher = new Teacher();
         if (jsonObject.containsKey("forename")) {
             teacher.setForename(jsonObject.getString("forename"));
-        } else teacher.setForename("");
+        } else {
+            teacher.setForename("");
+        }
         if (jsonObject.containsKey("lastname")) {
-            teacher.setForename(jsonObject.getString("lastname"));
-        } else teacher.setLastname("");
+            teacher.setLastname(jsonObject.getString("lastname"));
+        } else {
+            teacher.setLastname("");
+        }
         if (jsonObject.containsKey("email")) {
             teacher.setEmail(jsonObject.getString("email"));
-        } else teacher.setEmail("");
+        } else {
+            teacher.setEmail("");
+        }
 
         return teacher;
     }

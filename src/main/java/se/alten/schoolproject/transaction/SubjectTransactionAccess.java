@@ -8,6 +8,6 @@ import java.util.List;
 @Local
 public interface SubjectTransactionAccess {
     List listAllSubjects();
-    Subject addSubject(Subject subject);
+    Subject addSubject(Subject subject) throws Exception;
     List<Subject> getSubjectByName(List<String> subject);
 }

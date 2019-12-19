@@ -25,14 +25,13 @@ public class SubjectTransaction implements SubjectTransactionAccess{
     }
 
     @Override
-    public Subject addSubject(Subject subject) {
+    public Subject addSubject(Subject subject) throws Exception {
         try {
             entityManager.persist(subject);
             entityManager.flush();
             return subject;
         } catch ( PersistenceException pe ) {
-            subject.setTitle("duplicate");
-            return subject;
+            throw new Exception(pe.getCause());
         }
     }
 

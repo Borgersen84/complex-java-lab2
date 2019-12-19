@@ -23,12 +23,8 @@ public class TeacherController {
     @GET
     @Produces({"application/JSON"})
     public Response listTeachers() {
-        try {
             List teachers = sal.listAllTeachers();
             return Response.ok(teachers).build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }
     }
 
     @POST
@@ -40,7 +36,8 @@ public class TeacherController {
             TeacherModel teacher = sal.addTeacher(teacherModel);
             return Response.ok(teacher).build();
         } catch (Exception e) {
-            return Response.status(Response.Status.CONFLICT).build();
+            return Response.status(Response.Status.CONFLICT).entity(e.getMessage()).build();
+
         }
     }
 }

@@ -12,11 +12,13 @@ public class TeacherModel {
 
     private String forename;
     private String lastname;
+    private String email;
 
     public TeacherModel toModel(Teacher teacherToAdd) {
         TeacherModel teacherModel = new TeacherModel();
         teacherModel.setForename(teacherToAdd.getForename());
         teacherModel.setLastname(teacherToAdd.getLastname());
+        teacherModel.setEmail(teacherToAdd.getEmail());
 
         return teacherModel;
     }

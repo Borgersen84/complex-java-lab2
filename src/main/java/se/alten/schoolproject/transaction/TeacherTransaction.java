@@ -30,7 +30,7 @@ public class TeacherTransaction implements TeacherTransactionAccess  {
             entityManager.flush();
             return teacherToAdd;
         } catch (Exception e) {
-            throw new Exception("This didnt work");
+            throw new Exception(e.getCause());
         }
     }
 

@@ -31,6 +31,7 @@ public class SubjectController {
     }
 
     @POST
+    @Path("/add")
     @Produces({"application/JSON"})
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addSubject(String subject) {
@@ -38,7 +39,7 @@ public class SubjectController {
             SubjectModel subjectModel = sal.addSubject(subject);
             return Response.ok(subjectModel).build();
         } catch (Exception e ) {
-            return Response.status(404).build();
+            return Response.status(404).entity(e.getMessage()).build();
         }
     }
 }

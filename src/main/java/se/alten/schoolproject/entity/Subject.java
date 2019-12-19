@@ -39,9 +39,9 @@ public class Subject implements Serializable {
 
         Subject subject = new Subject();
 
-        if ( jsonObject.containsKey("subject")) {
+        if ( jsonObject.containsKey("title")) {
 
-            subject.setTitle(jsonObject.getString("subject"));
+            subject.setTitle(jsonObject.getString("title"));
         } else {
             subject.setTitle("");
         }
