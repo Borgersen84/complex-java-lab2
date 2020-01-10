@@ -9,5 +9,6 @@ import java.util.List;
 public interface SubjectTransactionAccess {
     List listAllSubjects();
     Subject addSubject(Subject subject) throws Exception;
-    List<Subject> getSubjectByName(List<String> subject);
+    Subject getSubjectByName(String subject);
+    Subject addStudentToSubject(String email);
 }

@@ -30,6 +30,18 @@ public class SubjectController {
         }
     }
 
+    @GET
+    @Path("/find")
+    @Produces({"application/JSON"})
+    public Response findSubjectByName(@QueryParam("title") String title) {
+        try {
+            SubjectModel subjectModel = sal.findSubjectByName(title);
+            return Response.ok(subjectModel).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.CONFLICT).build();
+        }
+    }
+
     @POST
     @Path("/add")
     @Produces({"application/JSON"})

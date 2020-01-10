@@ -36,12 +36,20 @@ public class SubjectTransaction implements SubjectTransactionAccess{
     }
 
     @Override
-    public List<Subject> getSubjectByName(List<String> subject) {
+    public Subject getSubjectByName(String subjectTitle) {
 
-        String queryStr = "SELECT sub FROM Subject sub WHERE sub.title IN :subject";
-        TypedQuery<Subject> query = entityManager.createQuery(queryStr, Subject.class);
-        query.setParameter("subject", subject);
+        String queryStr = "SELECT s FROM Subject s WHERE s.title = :title";
+        Query query = entityManager.createQuery(queryStr);
+        query.setParameter("title", subjectTitle);
+        Subject subjectName = (Subject) query.getSingleResult();
 
-        return query.getResultList();
+        return subjectName;
      }
+
+    @Override
+    public Subject addStudentToSubject(String email) {
+        return null;
+    }
+
+
 }

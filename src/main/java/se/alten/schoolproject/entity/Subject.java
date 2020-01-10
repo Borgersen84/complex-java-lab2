@@ -32,7 +32,7 @@ public class Subject implements Serializable {
     @ManyToMany(mappedBy = "subject", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<Student> students = new HashSet<>();
 
-    @ManyToMany(mappedBy = "subjects", cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "subjects", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Set<Teacher> teachers = new HashSet<>();
 
     public Subject toEntity(String subjectModel) {
