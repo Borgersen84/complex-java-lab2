@@ -21,6 +21,8 @@ import java.util.Set;
 @ToString
 public class Teacher implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,6 +35,12 @@ public class Teacher implements Serializable {
 
     @Column(unique = true)
     private String email;
+
+    @ManyToMany
+    @JoinTable(name = "teacher_subjects",
+            joinColumns = @JoinColumn(name = "teacher_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "subject_id", referencedColumnName = "id"))
+    private Set<Subject> subjects = new HashSet<>();
 
     public Teacher toEntity(String teacherModel) {
         List<String> temp = new ArrayList<>();

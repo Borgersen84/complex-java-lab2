@@ -3,12 +3,14 @@ package se.alten.schoolproject.model;
 import lombok.*;
 import se.alten.schoolproject.entity.Teacher;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class TeacherModel {
+public class TeacherModel implements Serializable {
 
     private String forename;
     private String lastname;
