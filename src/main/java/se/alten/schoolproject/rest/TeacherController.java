@@ -1,6 +1,7 @@
 package se.alten.schoolproject.rest;
 
 import lombok.NoArgsConstructor;
+import net.bytebuddy.asm.Advice;
 import se.alten.schoolproject.dao.SchoolAccessLocal;
 import se.alten.schoolproject.dao.SchoolDataAccess;
 import se.alten.schoolproject.model.TeacherModel;
@@ -39,5 +40,26 @@ public class TeacherController {
             return Response.status(Response.Status.CONFLICT).entity(e.getMessage()).build();
 
         }
+    }
+
+    @GET
+    @Path("/find")
+    @Produces({"application/JSON"})
+    public Response findTeacherByEmail(@QueryParam("email") String email) {
+        try {
+            TeacherModel teacher = sal.findTeacherByEmail(email);
+            return Response.ok(teacher).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.CONFLICT).entity(e.getMessage()).build();
+        }
+
+    }
+
+    public Response updateTeacher() {
+        return null;
+    }
+
+    public Response deleteTeacher() {
+        return null;
     }
 }

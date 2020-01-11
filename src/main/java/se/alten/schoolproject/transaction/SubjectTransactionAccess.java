@@ -11,4 +11,5 @@ public interface SubjectTransactionAccess {
     Subject addSubject(Subject subject) throws Exception;
     Subject getSubjectByName(String subject);
     Subject addStudentToSubject(String email);
+    Subject addTeacherToSubject(String email);
 }

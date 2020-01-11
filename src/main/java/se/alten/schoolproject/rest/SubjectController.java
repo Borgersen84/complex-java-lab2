@@ -54,4 +54,24 @@ public class SubjectController {
             return Response.status(404).entity(e.getMessage()).build();
         }
     }
+
+    public Response deleteSubject() {
+        return null;
+    }
+
+    public Response addStudentToSubject() {
+        return null;
+    }
+
+    public Response removeStudentFromSubject() {
+        return null;
+    }
+
+    public Response addTeacherToSubject() {
+        return null;
+    }
+
+    public Response removeTeacherFromSubject() {
+        return null;
+    }
 }

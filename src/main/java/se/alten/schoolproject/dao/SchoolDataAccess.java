@@ -117,6 +117,11 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
     }
 
     @Override
+    public TeacherModel findTeacherByEmail(String email) {
+        return teacherModel.toModel(teacherTransactionAccess.findTeacherByEmail(email));
+    }
+
+    @Override
     public SubjectModel findSubjectByName(String subject) {
         return subjectModel.toModel(subjectTransactionAccess.getSubjectByName(subject));
     }

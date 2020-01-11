@@ -34,5 +34,13 @@ public class TeacherTransaction implements TeacherTransactionAccess  {
         }
     }
 
+    @Override
+    public Teacher findTeacherByEmail(String email) {
+        String queryString = "SELECT t FROM Teacher t WHERE t.email = :email";
+        Query query = entityManager.createQuery(queryString);
+        query.setParameter("email", email);
+        Teacher teacher = (Teacher) query.getSingleResult();
 
+        return teacher;
+    }
 }

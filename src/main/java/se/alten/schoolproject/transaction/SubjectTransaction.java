@@ -51,5 +51,10 @@ public class SubjectTransaction implements SubjectTransactionAccess{
         return null;
     }
 
+    @Override
+    public Subject addTeacherToSubject(String email) {
+        return null;
+    }
+
 
 }

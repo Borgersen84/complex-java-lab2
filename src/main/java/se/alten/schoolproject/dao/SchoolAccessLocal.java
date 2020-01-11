@@ -32,5 +32,7 @@ public interface SchoolAccessLocal {
 
     TeacherModel addTeacher(String teacherModel) throws Exception;
 
+    TeacherModel findTeacherByEmail(String email);
+
     SubjectModel findSubjectByName(String subject);
 }

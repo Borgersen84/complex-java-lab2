@@ -8,4 +8,5 @@ public interface TeacherTransactionAccess {
 
     List listAllTeachers();
     Teacher addTeacher(Teacher teacherToAdd) throws Exception;
+    Teacher findTeacherByEmail(String email);
 }
