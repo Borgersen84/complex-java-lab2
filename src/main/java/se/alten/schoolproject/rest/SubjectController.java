@@ -75,8 +75,16 @@ public class SubjectController {
         return null;
     }
 
-    public Response addTeacherToSubject() {
-        return null;
+    @PATCH
+    @Path("/updateT")
+    @Produces({"application/JSON"})
+    public Response addTeacherToSubject(@QueryParam("title") String subjectTitle, @QueryParam("email") String teacherEmail) {
+        try {
+            SubjectModel subjectModel = sal.addTeacherToSubject(subjectTitle, teacherEmail);
+            return Response.ok(subjectModel).build();
+        } catch (Exception e) {
+            return Response.status(404).entity(e.getMessage()).build();
+        }
     }
 
     public Response removeTeacherFromSubject() {

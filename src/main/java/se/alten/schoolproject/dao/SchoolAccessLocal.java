@@ -28,7 +28,7 @@ public interface SchoolAccessLocal {
 
     SubjectModel addSubject(String subjectModel) throws Exception;
 
-    SubjectModel addTeacherToSubject(String subject);
+    SubjectModel addTeacherToSubject(String subjectTitle, String teacherEmail);
 
     SubjectModel addStudentToSubject(String subjectTitle, String studentEmail);
 

@@ -3,6 +3,7 @@ package se.alten.schoolproject.transaction;
 import org.hibernate.Session;
 import se.alten.schoolproject.entity.Student;
 import se.alten.schoolproject.entity.Subject;
+import se.alten.schoolproject.entity.Teacher;
 
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
@@ -69,7 +70,20 @@ public class SubjectTransaction implements SubjectTransactionAccess{
     }
 
     @Override
-    public Subject assignSubjectToTeacher(Subject subject, Student student) {
-        return null;
+    public Subject assignSubjectToTeacher(String subjectTitle, String teacherEmail) {
+        Subject subject = getSubjectByName(subjectTitle);
+        String teacherQueryStr = "SELECT t FROM Teacher t WHERE t.email = :email";
+        Query teacherQuery = entityManager.createQuery(teacherQueryStr);
+        teacherQuery.setParameter("email", teacherEmail);
+        Teacher teacher = (Teacher) teacherQuery.getSingleResult();
+
+        Set<Teacher> teachers = subject.getTeachers();
+        Set<Subject> subjects = teacher.getSubjects();
+        teachers.add(teacher);
+        subjects.add(subject);
+        subject.setTeachers(teachers);
+        teacher.setSubjects(subjects);
+
+        return subject;
     }
 }

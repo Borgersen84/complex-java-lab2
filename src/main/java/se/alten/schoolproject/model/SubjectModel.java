@@ -7,6 +7,8 @@ import se.alten.schoolproject.entity.Teacher;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Optional;
 import java.util.Set;
 
 @Getter
@@ -18,15 +20,33 @@ public class SubjectModel implements Serializable {
 
     private Long id;
     private String title;
-    private Set<Teacher> teachers = new HashSet<>();
-    private Set<Student> students = new HashSet<>();
+    private Set<String> teachers = new HashSet<>();
+    private Set<String> students = new HashSet<>();
 
     public SubjectModel toModel(Subject subjectToAdd) {
         SubjectModel subjectModel = new SubjectModel();
         subjectModel.setId(subjectToAdd.getId());
         subjectModel.setTitle(subjectToAdd.getTitle());
-        subjectModel.setStudents(subjectToAdd.getStudents());
-        subjectModel.setTeachers(subjectToAdd.getTeachers());
+        subjectModel.setStudents(studentsToStringValues(subjectToAdd.getStudents()));
+        subjectModel.setTeachers(teachersToStringValues(subjectToAdd.getTeachers()));
         return subjectModel;
     }
+
+    public Set<String> studentsToStringValues(Set<Student> students) {
+        Set<String> tempSet = new HashSet<>();
+        for(Student s:students) {
+            tempSet.add(s.getForename() + " " + s.getLastname());
+        }
+        return tempSet;
+    }
+
+    public Set<String> teachersToStringValues(Set<Teacher> teachers) {
+        Set<String> tempSet = new HashSet<>();
+        for(Teacher t:teachers) {
+            tempSet.add(t.getForename() + " " + t.getLastname());
+        }
+        return tempSet;
+    }
+
 }
+
