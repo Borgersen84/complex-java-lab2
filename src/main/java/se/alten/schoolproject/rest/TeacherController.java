@@ -55,10 +55,6 @@ public class TeacherController {
 
     }
 
-    public Response updateTeacher() {
-        return null;
-    }
-
     public Response deleteTeacher() {
         return null;
     }

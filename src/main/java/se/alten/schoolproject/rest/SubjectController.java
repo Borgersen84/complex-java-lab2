@@ -106,7 +106,15 @@ public class SubjectController {
         }
     }
 
-    public Response removeTeacherFromSubject() {
-        return null;
+    @PATCH
+    @Path("/teacher/remove")
+    @Produces({"application/JSON"})
+    public Response removeTeacherFromSubject(@QueryParam("title") String subjectTitle, @QueryParam("email") String teacherEmail) {
+        try {
+            sal.removeTeacherFromSubject(subjectTitle, teacherEmail);
+            return Response.ok().build();
+        } catch (Exception e) {
+            return Response.status(404).entity(e.getMessage()).build();
+        }
     }
 }

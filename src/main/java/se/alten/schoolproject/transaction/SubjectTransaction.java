@@ -107,6 +107,11 @@ public class SubjectTransaction implements SubjectTransactionAccess{
 
     @Override
     public void removeTeacherFromSubject(String subjectTitle, String teacherEmail) {
-
+        String teacherQueryStr = "SELECT t FROM Teacher t WHERE t.email = :email";
+        Query teacherQuery = entityManager.createQuery(teacherQueryStr);
+        Teacher teacher = (Teacher) teacherQuery.setParameter("email", teacherEmail).getSingleResult();
+        teacher.getSubjects().removeIf(subject -> subject.getTitle().equals(subjectTitle));
+        entityManager.merge(teacher);
+        entityManager.flush();
     }
 }

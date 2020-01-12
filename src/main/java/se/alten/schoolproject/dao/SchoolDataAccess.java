@@ -150,7 +150,7 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
 
     @Override
     public void removeTeacherFromSubject(String subjectTitle, String teacherEmail) {
-
+        subjectTransactionAccess.removeTeacherFromSubject(subjectTitle, teacherEmail);
     }
 
     @Override
