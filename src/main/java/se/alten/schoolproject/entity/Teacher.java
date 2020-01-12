@@ -36,7 +36,7 @@ public class Teacher implements Serializable {
     @Column(unique = true)
     private String email;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "teacher_subjects",
             joinColumns = @JoinColumn(name = "teacher_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "subject_id", referencedColumnName = "id"))

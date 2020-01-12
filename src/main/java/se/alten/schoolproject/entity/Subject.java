@@ -29,10 +29,10 @@ public class Subject implements Serializable {
     @Column(unique = true)
     private String title;
 
-    @ManyToMany(mappedBy = "subject", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "subject", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private Set<Student> students = new HashSet<>();
 
-    @ManyToMany(mappedBy = "subjects", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "subjects", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private Set<Teacher> teachers = new HashSet<>();
 
     public Subject toEntity(String subjectModel) {
