@@ -142,4 +142,24 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
     public SubjectModel addStudentToSubject(String subjectTitle, String studentEmail) {
         return subjectModel.toModel(subjectTransactionAccess.assignSubjectToStudent(subjectTitle, studentEmail));
     }
+
+    @Override
+    public void removeStudentFromSubject(String subjectTitle, String studentEmail) {
+        subjectTransactionAccess.removeStudentFromSubject(subjectTitle, studentEmail);
+    }
+
+    @Override
+    public void removeTeacherFromSubject(String subjectTitle, String teacherEmail) {
+
+    }
+
+    @Override
+    public void removeSubject(String subjectTitle) {
+        subjectTransactionAccess.removeSubject(subjectTitle);
+    }
+
+    @Override
+    public void removeTeacher(String teacherEmail) {
+
+    }
 }

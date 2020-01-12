@@ -41,7 +41,7 @@ public class SubjectController {
             SubjectModel subjectModel = sal.findSubjectByName(title);
             return Response.ok(subjectModel).build();
         } catch (Exception e) {
-            return Response.status(Response.Status.CONFLICT).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("{\"Something went wrong\"}").build();
         }
     }
 
@@ -58,12 +58,20 @@ public class SubjectController {
         }
     }
 
-    public Response deleteSubject() {
-        return null;
+    @DELETE
+    @Path("/delete")
+    @Produces({"application/JSON"})
+    public Response deleteSubject(@QueryParam("title") String subjectTitle) {
+        try {
+            sal.removeSubject(subjectTitle);
+            return Response.ok().build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.CONFLICT).entity(e.getMessage()).build();
+        }
     }
 
     @PATCH
-    @Path("/update")
+    @Path("/student")
     @Produces({"application/JSON"})
     public Response addStudentToSubject(@QueryParam("title") String subjectTitle, @QueryParam("email") String studentEmail) {
         try {
@@ -74,12 +82,20 @@ public class SubjectController {
         }
     }
 
-    public Response removeStudentFromSubject() {
-        return null;
+    @PATCH
+    @Path("student/remove")
+    @Produces({"application/JSON"})
+    public Response removeStudentFromSubject(@QueryParam("title") String subjectTitle, @QueryParam("email") String studentEmail) {
+        try {
+            sal.removeStudentFromSubject(subjectTitle, studentEmail);
+            return Response.ok().build();
+        } catch (Exception e) {
+            return Response.status(404).entity(e.getMessage()).build();
+        }
     }
 
     @PATCH
-    @Path("/updateT")
+    @Path("/teacher")
     @Produces({"application/JSON"})
     public Response addTeacherToSubject(@QueryParam("title") String subjectTitle, @QueryParam("email") String teacherEmail) {
         try {

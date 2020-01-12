@@ -10,8 +10,11 @@ import java.util.List;
 public interface SubjectTransactionAccess {
     List listAllSubjects();
     Subject addSubject(Subject subject) throws Exception;
+    void removeSubject(String subjectTitle);
     Subject getSubjectByName(String subject);
     Subject assignSubjectToStudent(String subjectTitle, String studentEmail);
     Subject assignSubjectToTeacher(String subjectTitle, String teacherEmail);
+    void removeStudentFromSubject(String subjectTitle, String studentEmail);
+    void removeTeacherFromSubject(String subjectTitle, String teacherEmail);
 
 }

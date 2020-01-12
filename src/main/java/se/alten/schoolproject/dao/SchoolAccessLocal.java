@@ -33,6 +33,12 @@ public interface SchoolAccessLocal {
 
     SubjectModel addStudentToSubject(String subjectTitle, String studentEmail);
 
+    void removeStudentFromSubject(String subjectTitle, String studentEmail);
+
+    void removeTeacherFromSubject(String subjectTitle, String teacherEmail);
+
+    void removeSubject(String subjectTitle);
+
     List listAllTeachers();
 
     TeacherModel addTeacher(String teacherModel) throws Exception;
@@ -40,4 +46,6 @@ public interface SchoolAccessLocal {
     TeacherModel findTeacherByEmail(String email);
 
     SubjectModel findSubjectByName(String subject);
+
+    void removeTeacher(String teacherEmail);
 }
