@@ -59,8 +59,16 @@ public class SubjectController {
         return null;
     }
 
-    public Response addStudentToSubject() {
-        return null;
+    @PATCH
+    @Path("/update")
+    @Produces({"application/JSON"})
+    public Response addStudentToSubject(@QueryParam("title") String subjectTitle, @QueryParam("email") String studentEmail) {
+        try {
+            SubjectModel subjectModel = sal.addStudentToSubject(subjectTitle, studentEmail);
+            return Response.ok(subjectModel).build();
+        } catch (Exception e) {
+            return Response.status(404).entity(e.getMessage()).build();
+        }
     }
 
     public Response removeStudentFromSubject() {

@@ -1,5 +1,6 @@
 package se.alten.schoolproject.transaction;
 
+import se.alten.schoolproject.entity.Student;
 import se.alten.schoolproject.entity.Subject;
 
 import javax.ejb.Local;
@@ -10,6 +11,7 @@ public interface SubjectTransactionAccess {
     List listAllSubjects();
     Subject addSubject(Subject subject) throws Exception;
     Subject getSubjectByName(String subject);
-    Subject addStudentToSubject(String email);
-    Subject addTeacherToSubject(String email);
+    Subject assignSubjectToStudent(String subjectTitle, String studentEmail);
+    Subject assignSubjectToTeacher(Subject subject, Student student);
+
 }

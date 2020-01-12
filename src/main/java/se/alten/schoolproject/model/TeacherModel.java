@@ -20,7 +20,6 @@ public class TeacherModel implements Serializable {
     private String lastname;
     private String email;
     private Set<Subject> subjects = new HashSet<>();
-    private Set<Set<Student>> students = new HashSet<>();
 
     public TeacherModel toModel(Teacher teacherToAdd) {
         TeacherModel teacherModel = new TeacherModel();
@@ -28,15 +27,8 @@ public class TeacherModel implements Serializable {
         teacherModel.setLastname(teacherToAdd.getLastname());
         teacherModel.setEmail(teacherToAdd.getEmail());
         teacherModel.setSubjects(teacherToAdd.getSubjects());
-        teacherModel.setStudents(getStudentsFromSubjects(subjects));
 
         return teacherModel;
     }
 
-    private Set<Set<Student>> getStudentsFromSubjects(Set<Subject> subjects) {
-        for(Subject s:subjects) {
-            this.students.add(s.getStudents());
-        }
-        return this.students;
-    }
 }

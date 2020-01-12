@@ -28,6 +28,10 @@ public interface SchoolAccessLocal {
 
     SubjectModel addSubject(String subjectModel) throws Exception;
 
+    SubjectModel addTeacherToSubject(String subject);
+
+    SubjectModel addStudentToSubject(String subjectTitle, String studentEmail);
+
     List listAllTeachers();
 
     TeacherModel addTeacher(String teacherModel) throws Exception;
