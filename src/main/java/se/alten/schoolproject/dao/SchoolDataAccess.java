@@ -38,7 +38,7 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
 
     @Override
     public List listAllStudents() throws StudentNotFoundException {
-        return studentTransactionAccess.listAllStudents();
+        return studentModel.toModel(studentTransactionAccess.listAllStudents());
     }
 
     @Override
@@ -94,7 +94,7 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
 
     @Override
     public List listAllSubjects() {
-        return subjectTransactionAccess.listAllSubjects();
+        return subjectModel.toModel(subjectTransactionAccess.listAllSubjects());
     }
 
     @Override
@@ -106,7 +106,7 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
 
     @Override
     public List listAllTeachers() {
-        return teacherTransactionAccess.listAllTeachers();
+        return teacherModel.toModel(teacherTransactionAccess.listAllTeachers());
     }
 
     @Override

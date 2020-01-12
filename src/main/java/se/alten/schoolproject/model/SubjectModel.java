@@ -6,10 +6,7 @@ import se.alten.schoolproject.entity.Subject;
 import se.alten.schoolproject.entity.Teacher;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -32,19 +29,30 @@ public class SubjectModel implements Serializable {
         return subjectModel;
     }
 
-    public Set<String> studentsToStringValues(Set<Student> students) {
+    public List<SubjectModel> toModel(List<Subject> subjects) {
+        List<SubjectModel> subjectList = new ArrayList<>();
+        for(Subject s:subjects) {
+            subjectList.add(toModel(s));
+        }
+
+        return subjectList;
+    }
+
+    private Set<String> studentsToStringValues(Set<Student> students) {
         Set<String> tempSet = new HashSet<>();
         for(Student s:students) {
             tempSet.add(s.getForename() + " " + s.getLastname());
         }
+
         return tempSet;
     }
 
-    public Set<String> teachersToStringValues(Set<Teacher> teachers) {
+    private Set<String> teachersToStringValues(Set<Teacher> teachers) {
         Set<String> tempSet = new HashSet<>();
         for(Teacher t:teachers) {
             tempSet.add(t.getForename() + " " + t.getLastname());
         }
+
         return tempSet;
     }
 
