@@ -2,6 +2,7 @@ package se.alten.schoolproject.rest;
 
 import lombok.NoArgsConstructor;
 import se.alten.schoolproject.dao.SchoolAccessLocal;
+import se.alten.schoolproject.exception.ResourceNotFoundException;
 import se.alten.schoolproject.model.SubjectModel;
 
 import javax.ejb.Stateless;
@@ -25,8 +26,10 @@ public class SubjectController {
         try {
             List subject = sal.listAllSubjects();
             return Response.ok(subject).build();
+        } catch (ResourceNotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         } catch ( Exception e ) {
-            return Response.status(Response.Status.CONFLICT).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("{\"Something went wrong\"}").build();
         }
     }
 

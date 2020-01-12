@@ -4,6 +4,7 @@ import se.alten.schoolproject.entity.Student;
 import se.alten.schoolproject.entity.Subject;
 import se.alten.schoolproject.entity.Teacher;
 import se.alten.schoolproject.exception.EmptyFieldException;
+import se.alten.schoolproject.exception.ResourceNotFoundException;
 import se.alten.schoolproject.exception.StudentNotFoundException;
 import se.alten.schoolproject.model.StudentModel;
 import se.alten.schoolproject.model.SubjectModel;
@@ -93,8 +94,14 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
     }
 
     @Override
-    public List listAllSubjects() {
-        return subjectModel.toModel(subjectTransactionAccess.listAllSubjects());
+    public List listAllSubjects() throws ResourceNotFoundException {
+        // return subjectModel.toModel(subjectTransactionAccess.listAllSubjects());
+        List<SubjectModel> subjectModelList = subjectModel.toModel(subjectTransactionAccess.listAllSubjects());
+        if(subjectModelList.size() < 1) {
+            throw new ResourceNotFoundException("{\"The list is empty!\"}");
+        }
+
+        return subjectModelList;
     }
 
     @Override

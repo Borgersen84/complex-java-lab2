@@ -1,6 +1,7 @@
 package se.alten.schoolproject.dao;
 
 import se.alten.schoolproject.exception.EmptyFieldException;
+import se.alten.schoolproject.exception.ResourceNotFoundException;
 import se.alten.schoolproject.exception.StudentNotFoundException;
 import se.alten.schoolproject.model.StudentModel;
 import se.alten.schoolproject.model.SubjectModel;
@@ -24,7 +25,7 @@ public interface SchoolAccessLocal {
 
     StudentModel updateStudentPartial(String studentModel) throws StudentNotFoundException, EmptyFieldException;
 
-    List listAllSubjects();
+    List listAllSubjects() throws ResourceNotFoundException;
 
     SubjectModel addSubject(String subjectModel) throws Exception;
 
