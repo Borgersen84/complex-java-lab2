@@ -4,6 +4,8 @@ import org.hibernate.Session;
 import se.alten.schoolproject.entity.Student;
 import se.alten.schoolproject.entity.Subject;
 import se.alten.schoolproject.entity.Teacher;
+import se.alten.schoolproject.exception.DuplicateResourceException;
+import se.alten.schoolproject.exception.ResourceNotFoundException;
 
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
@@ -31,13 +33,13 @@ public class SubjectTransaction implements SubjectTransactionAccess{
     }
 
     @Override
-    public Subject addSubject(Subject subject) throws Exception {
+    public Subject addSubject(Subject subject) throws DuplicateResourceException {
         try {
             entityManager.persist(subject);
             entityManager.flush();
             return subject;
         } catch ( PersistenceException pe ) {
-            throw new Exception(pe.getCause());
+            throw new DuplicateResourceException("{\"Subject " + subject.getTitle() + " already exist!\"}");
         }
     }
 
@@ -96,22 +98,53 @@ public class SubjectTransaction implements SubjectTransactionAccess{
     }
 
     @Override
-    public void removeStudentFromSubject(String subjectTitle, String studentEmail) {
+    public void removeStudentFromSubject(String subjectTitle, String studentEmail) throws ResourceNotFoundException {
         String studentQueryStr = "SELECT s FROM Student s WHERE s.email = :email";
+        Subject subjectForStudent;
+        try {
+            subjectForStudent = getSubjectByName(subjectTitle);
+        } catch (NoResultException e) {
+            throw  new ResourceNotFoundException("This subject does not exist");
+        }
         Query studentQuery = entityManager.createQuery(studentQueryStr);
-        Student student = (Student) studentQuery.setParameter("email", studentEmail).getSingleResult();
-        student.getSubject().removeIf(subject -> subject.getTitle().equals(subjectTitle));
-        entityManager.merge(student);
+        Student student = null;
+        try {
+            student = (Student) studentQuery.setParameter("email", studentEmail).getSingleResult();
+            student.getSubject().removeIf(subject -> subject.getTitle().equals(subjectTitle));
+            entityManager.merge(student);
+        } catch (Exception e) {}
+        if (student == null) {
+            throw new ResourceNotFoundException("{\"This student does not exist\"}");
+        }
+        else if (!subjectForStudent.getStudents().contains(student)) {
+            throw new ResourceNotFoundException("{\"This student does not have this subject\"}");
+        }
         entityManager.flush();
     }
 
     @Override
-    public void removeTeacherFromSubject(String subjectTitle, String teacherEmail) {
+    public void removeTeacherFromSubject(String subjectTitle, String teacherEmail) throws ResourceNotFoundException {
         String teacherQueryStr = "SELECT t FROM Teacher t WHERE t.email = :email";
+        Subject subjectForTeacher;
+        try {
+            subjectForTeacher = getSubjectByName(subjectTitle);
+        } catch (NoResultException e) {
+            throw new ResourceNotFoundException("{\"This subject does not exist\"}");
+        }
+
+        Teacher teacher = null;
         Query teacherQuery = entityManager.createQuery(teacherQueryStr);
-        Teacher teacher = (Teacher) teacherQuery.setParameter("email", teacherEmail).getSingleResult();
-        teacher.getSubjects().removeIf(subject -> subject.getTitle().equals(subjectTitle));
-        entityManager.merge(teacher);
+        try {
+            teacher = (Teacher) teacherQuery.setParameter("email", teacherEmail).getSingleResult();
+            teacher.getSubjects().removeIf(subject -> subject.getTitle().equals(subjectTitle));
+            entityManager.merge(teacher);
+        } catch (Exception e) {}
+        if (teacher == null) {
+            throw new ResourceNotFoundException("{\"This teacher does not exist\"}");
+        }
+        else if (!subjectForTeacher.getTeachers().contains(teacher)) {
+            throw new ResourceNotFoundException("{\"This teacher does not have this course\"}");
+        }
         entityManager.flush();
     }
 }

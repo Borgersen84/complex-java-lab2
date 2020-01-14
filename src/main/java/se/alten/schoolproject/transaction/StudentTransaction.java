@@ -1,7 +1,7 @@
 package se.alten.schoolproject.transaction;
 
 import se.alten.schoolproject.entity.Student;
-import se.alten.schoolproject.exception.DuplicateEmailException;
+import se.alten.schoolproject.exception.DuplicateResourceException;
 import se.alten.schoolproject.exception.EmptyFieldException;
 import se.alten.schoolproject.exception.StudentNotFoundException;
 
@@ -41,13 +41,13 @@ public class StudentTransaction implements StudentTransactionAccess {
     }
 
     @Override
-    public Student addStudent(Student studentToAdd) throws DuplicateEmailException {
+    public Student addStudent(Student studentToAdd) throws DuplicateResourceException {
         try {
             entityManager.persist(studentToAdd);
             entityManager.flush();
             return studentToAdd;
         } catch ( PersistenceException pe ) {
-            throw new DuplicateEmailException("{\"Email already registered!\"}");
+            throw new DuplicateResourceException("{\"Email already registered!\"}");
         }
     }
 

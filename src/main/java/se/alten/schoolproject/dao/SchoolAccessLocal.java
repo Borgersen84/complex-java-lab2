@@ -31,11 +31,11 @@ public interface SchoolAccessLocal {
 
     SubjectModel addTeacherToSubject(String subjectTitle, String teacherEmail);
 
-    SubjectModel addStudentToSubject(String subjectTitle, String studentEmail);
+    SubjectModel addStudentToSubject(String subjectTitle, String studentEmail) throws ResourceNotFoundException;
 
-    void removeStudentFromSubject(String subjectTitle, String studentEmail);
+    void removeStudentFromSubject(String subjectTitle, String studentEmail) throws ResourceNotFoundException;
 
-    void removeTeacherFromSubject(String subjectTitle, String teacherEmail);
+    void removeTeacherFromSubject(String subjectTitle, String teacherEmail) throws ResourceNotFoundException;
 
     void removeSubject(String subjectTitle);
 
@@ -45,7 +45,5 @@ public interface SchoolAccessLocal {
 
     TeacherModel findTeacherByEmail(String email);
 
-    SubjectModel findSubjectByName(String subject);
-
-    void removeTeacher(String teacherEmail);
+    SubjectModel findSubjectByName(String subject) throws ResourceNotFoundException, EmptyFieldException;
 }

@@ -2,7 +2,7 @@ package se.alten.schoolproject.rest;
 
 import lombok.NoArgsConstructor;
 import se.alten.schoolproject.dao.SchoolAccessLocal;
-import se.alten.schoolproject.exception.DuplicateEmailException;
+import se.alten.schoolproject.exception.DuplicateResourceException;
 import se.alten.schoolproject.exception.EmptyFieldException;
 import se.alten.schoolproject.exception.StudentNotFoundException;
 import se.alten.schoolproject.model.StudentModel;
@@ -59,7 +59,7 @@ public class StudentController {
         try {
             StudentModel answer = sal.addStudent(studentModel);
             return Response.ok(answer).build();
-        } catch (DuplicateEmailException e) {
+        } catch (DuplicateResourceException e) {
             return Response.status((Response.Status.CONFLICT)).entity(e.getMessage()).build();
         } catch (EmptyFieldException e) {
             return Response.status(Response.Status.NOT_ACCEPTABLE).entity(e.getMessage()).build();

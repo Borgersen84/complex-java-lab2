@@ -107,8 +107,13 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
     @Override
     public SubjectModel addSubject(String newSubject) throws Exception {
         Subject subjectToAdd = subject.toEntity(newSubject);
-        subjectTransactionAccess.addSubject(subjectToAdd);
-        return subjectModel.toModel(subjectToAdd);
+        boolean checkForEmptyVariables = Stream.of(subjectToAdd.getTitle()).anyMatch(String::isBlank);
+        if(!checkForEmptyVariables) {
+            subjectTransactionAccess.addSubject(subjectToAdd);
+            return subjectModel.toModel(subjectToAdd);
+        } else {
+            throw new EmptyFieldException("{\"No empty fields allowed!\"}");
+        }
     }
 
     @Override
@@ -129,8 +134,17 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
     }
 
     @Override
-    public SubjectModel findSubjectByName(String subject) {
-        return subjectModel.toModel(subjectTransactionAccess.getSubjectByName(subject));
+    public SubjectModel findSubjectByName(String subject) throws EmptyFieldException, ResourceNotFoundException {
+        if(!subject.isBlank()){
+            try {
+                return subjectModel.toModel(subjectTransactionAccess.getSubjectByName(subject));
+            } catch (Exception e) {
+                throw new ResourceNotFoundException("{\"Subject " + subject + " not found\"}");
+            }
+        } else {
+            throw new EmptyFieldException("{\"No empty fields allowed\"}");
+        }
+
     }
 
     @Override
@@ -139,17 +153,28 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
     }
 
     @Override
-    public SubjectModel addStudentToSubject(String subjectTitle, String studentEmail) {
-        return subjectModel.toModel(subjectTransactionAccess.assignSubjectToStudent(subjectTitle, studentEmail));
+    public SubjectModel addStudentToSubject(String subjectTitle, String studentEmail) throws ResourceNotFoundException {
+        if(subjectTitle != null) {
+            return subjectModel.toModel(subjectTransactionAccess.assignSubjectToStudent(subjectTitle, studentEmail));
+        }
+        else {
+            throw new ResourceNotFoundException("{\"This course does not exist\"}");
+        }
     }
 
     @Override
-    public void removeStudentFromSubject(String subjectTitle, String studentEmail) {
-        subjectTransactionAccess.removeStudentFromSubject(subjectTitle, studentEmail);
+    public void removeStudentFromSubject(String subjectTitle, String studentEmail) throws ResourceNotFoundException {
+        Subject subject = subjectTransactionAccess.getSubjectByName(subjectTitle);
+        if(!subject.getTitle().equals(subjectTitle)) {
+            throw new ResourceNotFoundException("{\"This course does not exist\"}");
+        }
+        else {
+            subjectTransactionAccess.removeStudentFromSubject(subjectTitle, studentEmail);
+        }
     }
 
     @Override
-    public void removeTeacherFromSubject(String subjectTitle, String teacherEmail) {
+    public void removeTeacherFromSubject(String subjectTitle, String teacherEmail) throws ResourceNotFoundException {
         subjectTransactionAccess.removeTeacherFromSubject(subjectTitle, teacherEmail);
     }
 
@@ -158,8 +183,4 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
         subjectTransactionAccess.removeSubject(subjectTitle);
     }
 
-    @Override
-    public void removeTeacher(String teacherEmail) {
-
-    }
 }

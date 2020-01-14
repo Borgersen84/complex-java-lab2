@@ -2,6 +2,7 @@ package se.alten.schoolproject.transaction;
 
 import se.alten.schoolproject.entity.Student;
 import se.alten.schoolproject.entity.Subject;
+import se.alten.schoolproject.exception.ResourceNotFoundException;
 
 import javax.ejb.Local;
 import java.util.List;
@@ -14,7 +15,7 @@ public interface SubjectTransactionAccess {
     Subject getSubjectByName(String subject);
     Subject assignSubjectToStudent(String subjectTitle, String studentEmail);
     Subject assignSubjectToTeacher(String subjectTitle, String teacherEmail);
-    void removeStudentFromSubject(String subjectTitle, String studentEmail);
-    void removeTeacherFromSubject(String subjectTitle, String teacherEmail);
+    void removeStudentFromSubject(String subjectTitle, String studentEmail) throws ResourceNotFoundException;
+    void removeTeacherFromSubject(String subjectTitle, String teacherEmail) throws ResourceNotFoundException;
 
 }

@@ -2,6 +2,8 @@ package se.alten.schoolproject.rest;
 
 import lombok.NoArgsConstructor;
 import se.alten.schoolproject.dao.SchoolAccessLocal;
+import se.alten.schoolproject.exception.DuplicateResourceException;
+import se.alten.schoolproject.exception.EmptyFieldException;
 import se.alten.schoolproject.exception.ResourceNotFoundException;
 import se.alten.schoolproject.model.SubjectModel;
 
@@ -40,8 +42,12 @@ public class SubjectController {
         try {
             SubjectModel subjectModel = sal.findSubjectByName(title);
             return Response.ok(subjectModel).build();
+        } catch (ResourceNotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+        } catch (EmptyFieldException e) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(e.getMessage()).build();
         } catch (Exception e) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("{\"Something went wrong\"}").build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("{\"Something went wrong!\"}").build();
         }
     }
 
@@ -53,8 +59,12 @@ public class SubjectController {
         try {
             SubjectModel subjectModel = sal.addSubject(subject);
             return Response.ok(subjectModel).build();
+        } catch(DuplicateResourceException e){
+            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(e.getMessage()).build();
+        } catch (EmptyFieldException e){
+            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(e.getMessage()).build();
         } catch (Exception e ) {
-            return Response.status(404).entity(e.getMessage()).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("{\"Something went wrong!\"}").build();
         }
     }
 
@@ -88,9 +98,11 @@ public class SubjectController {
     public Response removeStudentFromSubject(@QueryParam("title") String subjectTitle, @QueryParam("email") String studentEmail) {
         try {
             sal.removeStudentFromSubject(subjectTitle, studentEmail);
-            return Response.ok().build();
+            return Response.ok().entity("{\"Student removed from " + subjectTitle + "\"}").build();
+        } catch (ResourceNotFoundException e){
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         } catch (Exception e) {
-            return Response.status(404).entity(e.getMessage()).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("{\"Something went wrong!\"}").build();
         }
     }
 
@@ -112,9 +124,11 @@ public class SubjectController {
     public Response removeTeacherFromSubject(@QueryParam("title") String subjectTitle, @QueryParam("email") String teacherEmail) {
         try {
             sal.removeTeacherFromSubject(subjectTitle, teacherEmail);
-            return Response.ok().build();
+            return Response.ok().entity("{\"Teacher removed from " + subjectTitle + "\"}").build();
+        } catch (ResourceNotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         } catch (Exception e) {
-            return Response.status(404).entity(e.getMessage()).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("{\"Something went wrong!\"}").build();
         }
     }
 }
