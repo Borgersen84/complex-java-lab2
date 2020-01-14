@@ -27,8 +27,15 @@ public class TeacherController {
     @GET
     @Produces({"application/JSON"})
     public Response listTeachers() {
+        try {
             List teachers = sal.listAllTeachers();
             return Response.ok(teachers).build();
+        } catch (ResourceNotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("{\"Something went wrong!\"}").build();
+        }
+
     }
 
     @POST

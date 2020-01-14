@@ -118,8 +118,14 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
     }
 
     @Override
-    public List listAllTeachers() {
-        return teacherModel.toModel(teacherTransactionAccess.listAllTeachers());
+    public List listAllTeachers() throws ResourceNotFoundException {
+        List<TeacherModel> teacherModelList = teacherModel.toModel(teacherTransactionAccess.listAllTeachers());
+        if (teacherModelList.size() < 1) {
+            throw new ResourceNotFoundException("{\"This list is empty!\"}");
+        }
+
+        return teacherModelList;
+        //return teacherModel.toModel(teacherTransactionAccess.listAllTeachers());
     }
 
     @Override

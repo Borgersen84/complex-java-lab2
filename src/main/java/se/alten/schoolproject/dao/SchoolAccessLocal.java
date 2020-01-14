@@ -40,7 +40,7 @@ public interface SchoolAccessLocal {
 
     void removeSubject(String subjectTitle) throws ResourceNotFoundException, EmptyFieldException;
 
-    List listAllTeachers();
+    List listAllTeachers() throws ResourceNotFoundException;
 
     TeacherModel addTeacher(String teacherModel) throws EmptyFieldException, DuplicateResourceException;
 
