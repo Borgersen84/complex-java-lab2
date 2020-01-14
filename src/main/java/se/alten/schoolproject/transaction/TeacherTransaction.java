@@ -1,11 +1,13 @@
 package se.alten.schoolproject.transaction;
 
 import se.alten.schoolproject.entity.Teacher;
+import se.alten.schoolproject.exception.DuplicateResourceException;
 
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import javax.ws.rs.NotFoundException;
 import java.util.List;
@@ -24,13 +26,13 @@ public class TeacherTransaction implements TeacherTransactionAccess  {
     }
 
     @Override
-    public Teacher addTeacher(Teacher teacherToAdd) throws Exception {
+    public Teacher addTeacher(Teacher teacherToAdd) throws DuplicateResourceException {
         try {
             entityManager.persist(teacherToAdd);
             entityManager.flush();
             return teacherToAdd;
-        } catch (Exception e) {
-            throw new Exception(e.getCause());
+        } catch (PersistenceException e) {
+            throw new DuplicateResourceException("{\"Email already registered!\"}");
         }
     }
 

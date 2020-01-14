@@ -42,7 +42,7 @@ public interface SchoolAccessLocal {
 
     List listAllTeachers();
 
-    TeacherModel addTeacher(String teacherModel) throws Exception;
+    TeacherModel addTeacher(String teacherModel) throws EmptyFieldException, DuplicateResourceException;
 
     TeacherModel findTeacherByEmail(String email);
 

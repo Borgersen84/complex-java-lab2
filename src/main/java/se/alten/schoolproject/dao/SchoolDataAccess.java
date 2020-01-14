@@ -108,8 +108,8 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
     @Override
     public SubjectModel addSubject(String newSubject) throws Exception {
         Subject subjectToAdd = subject.toEntity(newSubject);
-        boolean checkForEmptyVariables = Stream.of(subjectToAdd.getTitle()).anyMatch(String::isBlank);
-        if(!checkForEmptyVariables) {
+        //boolean checkForEmptyVariables = Stream.of(subjectToAdd.getTitle()).anyMatch(String::isBlank);
+        if(!subjectToAdd.getTitle().isBlank()) {
             subjectTransactionAccess.addSubject(subjectToAdd);
             return subjectModel.toModel(subjectToAdd);
         } else {
@@ -123,10 +123,16 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
     }
 
     @Override
-    public TeacherModel addTeacher(String newTeacher) throws Exception {
+    public TeacherModel addTeacher(String newTeacher) throws DuplicateResourceException, EmptyFieldException {
         Teacher teacherToAdd = teacher.toEntity(newTeacher);
-        teacherTransactionAccess.addTeacher(teacherToAdd);
-        return teacherModel.toModel(teacherToAdd);
+        boolean checkForEmptyVariables = Stream.of(teacherToAdd.getForename(), teacherToAdd.getLastname(), teacherToAdd.getEmail()).anyMatch(String::isBlank);
+        if (!checkForEmptyVariables) {
+            return teacherModel.toModel(teacherTransactionAccess.addTeacher(teacherToAdd));
+        } else {
+            throw new EmptyFieldException("{\"No empty fields allowed!\"}");
+        }
+        /*teacherTransactionAccess.addTeacher(teacherToAdd);
+        return teacherModel.toModel(teacherToAdd);*/
     }
 
     @Override
