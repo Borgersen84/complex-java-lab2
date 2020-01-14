@@ -1,5 +1,6 @@
 package se.alten.schoolproject.dao;
 
+import se.alten.schoolproject.exception.DuplicateResourceException;
 import se.alten.schoolproject.exception.EmptyFieldException;
 import se.alten.schoolproject.exception.ResourceNotFoundException;
 import se.alten.schoolproject.exception.StudentNotFoundException;
@@ -31,7 +32,7 @@ public interface SchoolAccessLocal {
 
     SubjectModel addTeacherToSubject(String subjectTitle, String teacherEmail);
 
-    SubjectModel addStudentToSubject(String subjectTitle, String studentEmail) throws ResourceNotFoundException;
+    SubjectModel addStudentToSubject(String subjectTitle, String studentEmail) throws ResourceNotFoundException, EmptyFieldException, DuplicateResourceException;
 
     void removeStudentFromSubject(String subjectTitle, String studentEmail) throws ResourceNotFoundException;
 

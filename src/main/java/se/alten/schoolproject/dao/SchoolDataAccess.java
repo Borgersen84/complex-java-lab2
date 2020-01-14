@@ -3,6 +3,7 @@ package se.alten.schoolproject.dao;
 import se.alten.schoolproject.entity.Student;
 import se.alten.schoolproject.entity.Subject;
 import se.alten.schoolproject.entity.Teacher;
+import se.alten.schoolproject.exception.DuplicateResourceException;
 import se.alten.schoolproject.exception.EmptyFieldException;
 import se.alten.schoolproject.exception.ResourceNotFoundException;
 import se.alten.schoolproject.exception.StudentNotFoundException;
@@ -153,12 +154,12 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
     }
 
     @Override
-    public SubjectModel addStudentToSubject(String subjectTitle, String studentEmail) throws ResourceNotFoundException {
-        if(subjectTitle != null) {
+    public SubjectModel addStudentToSubject(String subjectTitle, String studentEmail) throws ResourceNotFoundException, EmptyFieldException, DuplicateResourceException {
+        if(!studentEmail.isBlank() && !subjectTitle.isBlank()) {
             return subjectModel.toModel(subjectTransactionAccess.assignSubjectToStudent(subjectTitle, studentEmail));
         }
         else {
-            throw new ResourceNotFoundException("{\"This course does not exist\"}");
+            throw new EmptyFieldException("{\"No empty fields allowed\"}");
         }
     }
 

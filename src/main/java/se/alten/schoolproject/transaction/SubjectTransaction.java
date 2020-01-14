@@ -54,12 +54,26 @@ public class SubjectTransaction implements SubjectTransactionAccess{
      }
 
     @Override
-    public Subject assignSubjectToStudent(String subjectTitle, String studentEmail) {
-        Subject subject = getSubjectByName(subjectTitle);
+    public Subject assignSubjectToStudent(String subjectTitle, String studentEmail) throws ResourceNotFoundException, DuplicateResourceException {
+        Subject subject;
+        try {
+            subject = getSubjectByName(subjectTitle);
+        } catch (NoResultException e) {
+            throw new ResourceNotFoundException("{\"This subject does not exist\"}");
+        }
+
         String studentQueryStr = "SELECT s FROM Student s WHERE s.email = :email";
         Query studentQuery = entityManager.createQuery(studentQueryStr);
         studentQuery.setParameter("email", studentEmail);
-        Student student = (Student) studentQuery.getSingleResult();
+        Student student;
+        try {
+            student = (Student) studentQuery.getSingleResult();
+        } catch (NoResultException e) {
+            throw new ResourceNotFoundException("{\"This student does not exist\"}");
+        }
+        if (subject.getStudents().contains(student)) {
+            throw new DuplicateResourceException("{\"Student already assigned to this subject!\"}");
+        }
 
         Set<Student> students = subject.getStudents();
         Set<Subject> subjects = student.getSubject();
@@ -67,6 +81,7 @@ public class SubjectTransaction implements SubjectTransactionAccess{
         subjects.add(subject);
         subject.setStudents(students);
         student.setSubject(subjects);
+        entityManager.flush();
 
         return subject;
     }
