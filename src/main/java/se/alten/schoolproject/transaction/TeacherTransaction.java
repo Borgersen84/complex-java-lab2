@@ -2,13 +2,11 @@ package se.alten.schoolproject.transaction;
 
 import se.alten.schoolproject.entity.Teacher;
 import se.alten.schoolproject.exception.DuplicateResourceException;
+import se.alten.schoolproject.exception.ResourceNotFoundException;
 
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceException;
-import javax.persistence.Query;
+import javax.persistence.*;
 import javax.ws.rs.NotFoundException;
 import java.util.List;
 
@@ -37,12 +35,16 @@ public class TeacherTransaction implements TeacherTransactionAccess  {
     }
 
     @Override
-    public Teacher findTeacherByEmail(String email) {
+    public Teacher findTeacherByEmail(String email) throws ResourceNotFoundException {
         String queryString = "SELECT t FROM Teacher t WHERE t.email = :email";
         Query query = entityManager.createQuery(queryString);
         query.setParameter("email", email);
-        Teacher teacher = (Teacher) query.getSingleResult();
-
+        Teacher teacher;
+        try {
+            teacher = (Teacher) query.getSingleResult();
+        } catch (NoResultException e) {
+            throw new ResourceNotFoundException("{\"This teacher is not registered!\"}");
+        }
         return teacher;
     }
 }

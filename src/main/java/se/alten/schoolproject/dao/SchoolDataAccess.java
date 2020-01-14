@@ -136,8 +136,13 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
     }
 
     @Override
-    public TeacherModel findTeacherByEmail(String email) {
-        return teacherModel.toModel(teacherTransactionAccess.findTeacherByEmail(email));
+    public TeacherModel findTeacherByEmail(String email) throws ResourceNotFoundException, EmptyFieldException {
+        if (!email.isBlank()) {
+            return teacherModel.toModel(teacherTransactionAccess.findTeacherByEmail(email));
+        } else {
+            throw new EmptyFieldException("{\"No empty fields allowed\"}");
+        }
+
     }
 
     @Override
@@ -176,13 +181,14 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
 
     @Override
     public void removeStudentFromSubject(String subjectTitle, String studentEmail) throws ResourceNotFoundException {
-        Subject subject = subjectTransactionAccess.getSubjectByName(subjectTitle);
+        /*Subject subject = subjectTransactionAccess.getSubjectByName(subjectTitle);
         if(!subject.getTitle().equals(subjectTitle)) {
             throw new ResourceNotFoundException("{\"This course does not exist\"}");
         }
         else {
             subjectTransactionAccess.removeStudentFromSubject(subjectTitle, studentEmail);
-        }
+        }*/
+        subjectTransactionAccess.removeStudentFromSubject(subjectTitle, studentEmail);
     }
 
     @Override

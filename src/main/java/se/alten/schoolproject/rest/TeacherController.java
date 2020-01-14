@@ -4,6 +4,9 @@ import lombok.NoArgsConstructor;
 import net.bytebuddy.asm.Advice;
 import se.alten.schoolproject.dao.SchoolAccessLocal;
 import se.alten.schoolproject.dao.SchoolDataAccess;
+import se.alten.schoolproject.exception.DuplicateResourceException;
+import se.alten.schoolproject.exception.EmptyFieldException;
+import se.alten.schoolproject.exception.ResourceNotFoundException;
 import se.alten.schoolproject.model.TeacherModel;
 
 import javax.ejb.Stateless;
@@ -36,8 +39,12 @@ public class TeacherController {
         try {
             TeacherModel teacher = sal.addTeacher(teacherModel);
             return Response.ok(teacher).build();
-        } catch (Exception e) {
+        } catch (DuplicateResourceException e) {
             return Response.status(Response.Status.CONFLICT).entity(e.getMessage()).build();
+        } catch (EmptyFieldException e) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(e.getMessage()).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("{\"Something went wrong!\"}").build();
 
         }
     }
@@ -49,13 +56,14 @@ public class TeacherController {
         try {
             TeacherModel teacher = sal.findTeacherByEmail(email);
             return Response.ok(teacher).build();
+        } catch (EmptyFieldException e) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(e.getMessage()).build();
+        } catch (ResourceNotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         } catch (Exception e) {
-            return Response.status(Response.Status.CONFLICT).entity(e.getMessage()).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("{\"Something went wrong!\"}").build();
         }
 
     }
 
-    public Response deleteTeacher() {
-        return null;
-    }
 }

@@ -44,7 +44,7 @@ public interface SchoolAccessLocal {
 
     TeacherModel addTeacher(String teacherModel) throws EmptyFieldException, DuplicateResourceException;
 
-    TeacherModel findTeacherByEmail(String email);
+    TeacherModel findTeacherByEmail(String email) throws ResourceNotFoundException, EmptyFieldException;
 
     SubjectModel findSubjectByName(String subject) throws ResourceNotFoundException, EmptyFieldException;
 }

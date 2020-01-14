@@ -140,7 +140,7 @@ public class SubjectTransaction implements SubjectTransactionAccess{
         try {
             subjectForStudent = getSubjectByName(subjectTitle);
         } catch (NoResultException e) {
-            throw  new ResourceNotFoundException("This subject does not exist");
+            throw  new ResourceNotFoundException("{\"This subject does not exist\"}");
         }
         Query studentQuery = entityManager.createQuery(studentQueryStr);
         Student student = null;
