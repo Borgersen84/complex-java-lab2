@@ -30,7 +30,7 @@ public interface SchoolAccessLocal {
 
     SubjectModel addSubject(String subjectModel) throws Exception;
 
-    SubjectModel addTeacherToSubject(String subjectTitle, String teacherEmail);
+    SubjectModel addTeacherToSubject(String subjectTitle, String teacherEmail) throws ResourceNotFoundException, EmptyFieldException, DuplicateResourceException;
 
     SubjectModel addStudentToSubject(String subjectTitle, String studentEmail) throws ResourceNotFoundException, EmptyFieldException, DuplicateResourceException;
 

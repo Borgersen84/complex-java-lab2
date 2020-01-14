@@ -149,8 +149,13 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
     }
 
     @Override
-    public SubjectModel addTeacherToSubject(String subjectTitle, String teacherEmail) {
-        return subjectModel.toModel(subjectTransactionAccess.assignSubjectToTeacher(subjectTitle, teacherEmail));
+    public SubjectModel addTeacherToSubject(String subjectTitle, String teacherEmail) throws ResourceNotFoundException, EmptyFieldException, DuplicateResourceException {
+        if (!teacherEmail.isBlank() && !subjectTitle.isBlank()) {
+            return subjectModel.toModel(subjectTransactionAccess.assignSubjectToTeacher(subjectTitle, teacherEmail));
+        }
+        else {
+            throw new EmptyFieldException("{\"No empty fields allowed\"}");
+        }
     }
 
     @Override

@@ -87,12 +87,25 @@ public class SubjectTransaction implements SubjectTransactionAccess{
     }
 
     @Override
-    public Subject assignSubjectToTeacher(String subjectTitle, String teacherEmail) {
-        Subject subject = getSubjectByName(subjectTitle);
+    public Subject assignSubjectToTeacher(String subjectTitle, String teacherEmail) throws ResourceNotFoundException, DuplicateResourceException {
+        Subject subject;
+        try {
+            subject = getSubjectByName(subjectTitle);
+        } catch (NoResultException e) {
+            throw new ResourceNotFoundException("{\"This subject does not exist!\"}");
+        }
         String teacherQueryStr = "SELECT t FROM Teacher t WHERE t.email = :email";
         Query teacherQuery = entityManager.createQuery(teacherQueryStr);
         teacherQuery.setParameter("email", teacherEmail);
-        Teacher teacher = (Teacher) teacherQuery.getSingleResult();
+        Teacher teacher;
+        try {
+            teacher = (Teacher) teacherQuery.getSingleResult();
+        } catch (NoResultException e) {
+            throw new ResourceNotFoundException("{\"This teacher does not exist!\"}");
+        }
+        if (subject.getTeachers().contains(teacher)) {
+            throw new DuplicateResourceException("{\"This teacher is already assigned to " + subjectTitle + "\"}");
+        }
 
         Set<Teacher> teachers = subject.getTeachers();
         Set<Subject> subjects = teacher.getSubjects();
@@ -100,6 +113,7 @@ public class SubjectTransaction implements SubjectTransactionAccess{
         subjects.add(subject);
         subject.setTeachers(teachers);
         teacher.setSubjects(subjects);
+        entityManager.flush();
 
         return subject;
     }
@@ -158,7 +172,7 @@ public class SubjectTransaction implements SubjectTransactionAccess{
             throw new ResourceNotFoundException("{\"This teacher does not exist\"}");
         }
         else if (!subjectForTeacher.getTeachers().contains(teacher)) {
-            throw new ResourceNotFoundException("{\"This teacher does not have this course\"}");
+            throw new ResourceNotFoundException("{\"This teacher does not have this subject\"}");
         }
         entityManager.flush();
     }

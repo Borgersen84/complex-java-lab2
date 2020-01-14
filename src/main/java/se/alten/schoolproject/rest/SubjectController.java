@@ -119,8 +119,14 @@ public class SubjectController {
         try {
             SubjectModel subjectModel = sal.addTeacherToSubject(subjectTitle, teacherEmail);
             return Response.ok(subjectModel).build();
+        } catch (EmptyFieldException e) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(e.getMessage()).build();
+        } catch (ResourceNotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
+        } catch (DuplicateResourceException e) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(e.getMessage()).build();
         } catch (Exception e) {
-            return Response.status(404).entity(e.getMessage()).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("{\"Something went wrong!\"}").build();
         }
     }
 

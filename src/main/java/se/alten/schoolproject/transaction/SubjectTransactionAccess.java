@@ -15,7 +15,7 @@ public interface SubjectTransactionAccess {
     void removeSubject(String subjectTitle);
     Subject getSubjectByName(String subject);
     Subject assignSubjectToStudent(String subjectTitle, String studentEmail) throws ResourceNotFoundException, DuplicateResourceException;
-    Subject assignSubjectToTeacher(String subjectTitle, String teacherEmail);
+    Subject assignSubjectToTeacher(String subjectTitle, String teacherEmail) throws ResourceNotFoundException, DuplicateResourceException;
     void removeStudentFromSubject(String subjectTitle, String studentEmail) throws ResourceNotFoundException;
     void removeTeacherFromSubject(String subjectTitle, String teacherEmail) throws ResourceNotFoundException;
 
