@@ -186,20 +186,30 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
     }
 
     @Override
-    public void removeStudentFromSubject(String subjectTitle, String studentEmail) throws ResourceNotFoundException {
+    public void removeStudentFromSubject(String subjectTitle, String studentEmail) throws ResourceNotFoundException, EmptyFieldException {
         /*Subject subject = subjectTransactionAccess.getSubjectByName(subjectTitle);
         if(!subject.getTitle().equals(subjectTitle)) {
             throw new ResourceNotFoundException("{\"This course does not exist\"}");
         }
         else {
             subjectTransactionAccess.removeStudentFromSubject(subjectTitle, studentEmail);
-        }*/
-        subjectTransactionAccess.removeStudentFromSubject(subjectTitle, studentEmail);
+        }*/if (!subjectTitle.isBlank() && !studentEmail.isBlank()) {
+            subjectTransactionAccess.removeStudentFromSubject(subjectTitle, studentEmail);
+        } else {
+            throw new EmptyFieldException("{\"No empty fields allowed!\"}");
+        }
+
+
     }
 
     @Override
-    public void removeTeacherFromSubject(String subjectTitle, String teacherEmail) throws ResourceNotFoundException {
-        subjectTransactionAccess.removeTeacherFromSubject(subjectTitle, teacherEmail);
+    public void removeTeacherFromSubject(String subjectTitle, String teacherEmail) throws ResourceNotFoundException, EmptyFieldException {
+        if (!subjectTitle.isBlank() && !teacherEmail.isBlank()) {
+            subjectTransactionAccess.removeTeacherFromSubject(subjectTitle, teacherEmail);
+        } else {
+            throw new EmptyFieldException("{\"No empty fields allowed!\"}");
+        }
+
     }
 
     @Override

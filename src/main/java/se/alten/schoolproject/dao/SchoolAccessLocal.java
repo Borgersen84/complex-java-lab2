@@ -34,9 +34,9 @@ public interface SchoolAccessLocal {
 
     SubjectModel addStudentToSubject(String subjectTitle, String studentEmail) throws ResourceNotFoundException, EmptyFieldException, DuplicateResourceException;
 
-    void removeStudentFromSubject(String subjectTitle, String studentEmail) throws ResourceNotFoundException;
+    void removeStudentFromSubject(String subjectTitle, String studentEmail) throws ResourceNotFoundException, EmptyFieldException;
 
-    void removeTeacherFromSubject(String subjectTitle, String teacherEmail) throws ResourceNotFoundException;
+    void removeTeacherFromSubject(String subjectTitle, String teacherEmail) throws ResourceNotFoundException, EmptyFieldException;
 
     void removeSubject(String subjectTitle) throws ResourceNotFoundException, EmptyFieldException;
 

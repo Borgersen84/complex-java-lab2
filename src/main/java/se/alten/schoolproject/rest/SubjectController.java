@@ -109,6 +109,8 @@ public class SubjectController {
         try {
             sal.removeStudentFromSubject(subjectTitle, studentEmail);
             return Response.ok().entity("{\"Student removed from " + subjectTitle + "\"}").build();
+        } catch (EmptyFieldException e) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(e.getMessage()).build();
         } catch (ResourceNotFoundException e){
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         } catch (Exception e) {
@@ -141,6 +143,8 @@ public class SubjectController {
         try {
             sal.removeTeacherFromSubject(subjectTitle, teacherEmail);
             return Response.ok().entity("{\"Teacher removed from " + subjectTitle + "\"}").build();
+        } catch (EmptyFieldException e) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(e.getMessage()).build();
         } catch (ResourceNotFoundException e) {
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         } catch (Exception e) {
