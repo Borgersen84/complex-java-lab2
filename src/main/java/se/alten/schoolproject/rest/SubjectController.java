@@ -60,7 +60,7 @@ public class SubjectController {
             SubjectModel subjectModel = sal.addSubject(subject);
             return Response.ok(subjectModel).build();
         } catch(DuplicateResourceException e){
-            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(e.getMessage()).build();
+            return Response.status(Response.Status.CONFLICT).entity(e.getMessage()).build();
         } catch (EmptyFieldException e){
             return Response.status(Response.Status.NOT_ACCEPTABLE).entity(e.getMessage()).build();
         } catch (Exception e ) {
@@ -75,8 +75,12 @@ public class SubjectController {
         try {
             sal.removeSubject(subjectTitle);
             return Response.ok().build();
+        } catch (EmptyFieldException e) {
+            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(e.getMessage()).build();
+        } catch (ResourceNotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         } catch (Exception e) {
-            return Response.status(Response.Status.CONFLICT).entity(e.getMessage()).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
     }
 
@@ -92,7 +96,7 @@ public class SubjectController {
         } catch (ResourceNotFoundException e) {
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         } catch (DuplicateResourceException e) {
-            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(e.getMessage()).build();
+            return Response.status(Response.Status.CONFLICT).entity(e.getMessage()).build();
         } catch (Exception e) {
             return Response.status(Response.Status.BAD_REQUEST).entity("{\"Something went wrong!\"}").build();
         }
@@ -124,7 +128,7 @@ public class SubjectController {
         } catch (ResourceNotFoundException e) {
             return Response.status(Response.Status.NOT_FOUND).entity(e.getMessage()).build();
         } catch (DuplicateResourceException e) {
-            return Response.status(Response.Status.NOT_ACCEPTABLE).entity(e.getMessage()).build();
+            return Response.status(Response.Status.CONFLICT).entity(e.getMessage()).build();
         } catch (Exception e) {
             return Response.status(Response.Status.BAD_REQUEST).entity("{\"Something went wrong!\"}").build();
         }

@@ -185,8 +185,13 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
     }
 
     @Override
-    public void removeSubject(String subjectTitle) {
-        subjectTransactionAccess.removeSubject(subjectTitle);
+    public void removeSubject(String subjectTitle) throws ResourceNotFoundException, EmptyFieldException{
+        if (!subjectTitle.isBlank()) {
+            subjectTransactionAccess.removeSubject(subjectTitle);
+        }
+        else {
+            throw new EmptyFieldException("{\"No empty fields allowed!\"}");
+        }
     }
 
 }

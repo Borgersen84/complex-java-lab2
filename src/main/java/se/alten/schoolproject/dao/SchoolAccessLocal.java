@@ -38,7 +38,7 @@ public interface SchoolAccessLocal {
 
     void removeTeacherFromSubject(String subjectTitle, String teacherEmail) throws ResourceNotFoundException;
 
-    void removeSubject(String subjectTitle);
+    void removeSubject(String subjectTitle) throws ResourceNotFoundException, EmptyFieldException;
 
     List listAllTeachers();
 

@@ -119,10 +119,17 @@ public class SubjectTransaction implements SubjectTransactionAccess{
     }
 
     @Override
-    public void removeSubject(String subjectTitle) {
+    public void removeSubject(String subjectTitle) throws ResourceNotFoundException{
         String deleteSubjectQuery = "DELETE FROM Subject s WHERE s.title = :title";
-        Query query = entityManager.createQuery(deleteSubjectQuery);
-        query.setParameter("title", subjectTitle).executeUpdate();
+        Subject subject;
+        try {
+            subject = getSubjectByName(subjectTitle);
+            Query query = entityManager.createQuery(deleteSubjectQuery);
+            query.setParameter("title", subjectTitle).executeUpdate();
+        } catch (NoResultException e) {
+            throw new ResourceNotFoundException("{\"This subject does not exist!\"}");
+        }
+
         entityManager.flush();
     }
 
