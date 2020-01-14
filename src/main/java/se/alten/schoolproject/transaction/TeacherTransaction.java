@@ -7,7 +7,6 @@ import se.alten.schoolproject.exception.ResourceNotFoundException;
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
 import javax.persistence.*;
-import javax.ws.rs.NotFoundException;
 import java.util.List;
 
 @Stateless

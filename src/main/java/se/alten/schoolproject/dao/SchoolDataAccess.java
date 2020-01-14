@@ -96,7 +96,6 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
 
     @Override
     public List listAllSubjects() throws ResourceNotFoundException {
-        // return subjectModel.toModel(subjectTransactionAccess.listAllSubjects());
         List<SubjectModel> subjectModelList = subjectModel.toModel(subjectTransactionAccess.listAllSubjects());
         if(subjectModelList.size() < 1) {
             throw new ResourceNotFoundException("{\"The list is empty!\"}");
@@ -108,7 +107,6 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
     @Override
     public SubjectModel addSubject(String newSubject) throws Exception {
         Subject subjectToAdd = subject.toEntity(newSubject);
-        //boolean checkForEmptyVariables = Stream.of(subjectToAdd.getTitle()).anyMatch(String::isBlank);
         if(!subjectToAdd.getTitle().isBlank()) {
             subjectTransactionAccess.addSubject(subjectToAdd);
             return subjectModel.toModel(subjectToAdd);
@@ -125,7 +123,6 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
         }
 
         return teacherModelList;
-        //return teacherModel.toModel(teacherTransactionAccess.listAllTeachers());
     }
 
     @Override
@@ -137,9 +134,7 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
         } else {
             throw new EmptyFieldException("{\"No empty fields allowed!\"}");
         }
-        /*teacherTransactionAccess.addTeacher(teacherToAdd);
-        return teacherModel.toModel(teacherToAdd);*/
-    }
+}
 
     @Override
     public TeacherModel findTeacherByEmail(String email) throws ResourceNotFoundException, EmptyFieldException {
@@ -187,13 +182,7 @@ public class SchoolDataAccess implements SchoolAccessLocal, SchoolAccessRemote {
 
     @Override
     public void removeStudentFromSubject(String subjectTitle, String studentEmail) throws ResourceNotFoundException, EmptyFieldException {
-        /*Subject subject = subjectTransactionAccess.getSubjectByName(subjectTitle);
-        if(!subject.getTitle().equals(subjectTitle)) {
-            throw new ResourceNotFoundException("{\"This course does not exist\"}");
-        }
-        else {
-            subjectTransactionAccess.removeStudentFromSubject(subjectTitle, studentEmail);
-        }*/if (!subjectTitle.isBlank() && !studentEmail.isBlank()) {
+        if (!subjectTitle.isBlank() && !studentEmail.isBlank()) {
             subjectTransactionAccess.removeStudentFromSubject(subjectTitle, studentEmail);
         } else {
             throw new EmptyFieldException("{\"No empty fields allowed!\"}");

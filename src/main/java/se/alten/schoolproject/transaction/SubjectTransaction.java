@@ -1,6 +1,5 @@
 package se.alten.schoolproject.transaction;
 
-import org.hibernate.Session;
 import se.alten.schoolproject.entity.Student;
 import se.alten.schoolproject.entity.Subject;
 import se.alten.schoolproject.entity.Teacher;
@@ -9,11 +8,8 @@ import se.alten.schoolproject.exception.ResourceNotFoundException;
 
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
-import javax.inject.Inject;
 import javax.persistence.*;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Stateless
@@ -22,9 +18,6 @@ public class SubjectTransaction implements SubjectTransactionAccess{
 
     @PersistenceContext(unitName="school")
     private EntityManager entityManager;
-
-    @Inject
-    private StudentTransactionAccess studentTransactionAccess;
 
     @Override
     public List listAllSubjects() {
