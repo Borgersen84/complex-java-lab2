@@ -41,7 +41,7 @@ Base url: localhost:8080/school
 | /student{email} | DELETE | | 406 - Empty field <br> 404 - Not found <br> 400 - Bad request |
 | /student | PUT | forename, lastname, email | 406 - Empty field <br> 404 - Not found <br> 400 - Bad request |
 | /student | PATCH | example Json body <br> { "forename":"hans", <br> "lastname":"hansen", <br> "email":"hansen@test.com" } <br><br> **lastname not mandatory since <br> it wont be changed anyways** | 406 - Empty field <br> 404 - Not found <br> 400 - Bad Request |
-| /teacher | GET |  | 200 - List of teachers <br> 404 - Not found <br> 400 Bad Request|
+| /teacher | GET |  | 200 - List of teachers <br> 404 - Not found <br> 400 - Bad Request|
 | /teacher/add | POST | example Json body <br> { "forename":"hans", <br> "lastname":"hansen", <br> "email":"hansen@test.com" } | 200 - Teacher model <br> 409 - Duplicate <br> 406 - Empty field <br> 400 Bad Request|
 | /teacher/find | GET | email | 200 - Teacher model <br>  404 - Not found <br> 406 - Empty field  <br> 400 - Bad request |
 | /subject | GET |  | 200 - List of subjects <br>  404 - Not found <br> 400 - Bad request |
